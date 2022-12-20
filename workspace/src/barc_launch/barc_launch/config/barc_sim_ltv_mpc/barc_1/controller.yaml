@@ -1,0 +1,81 @@
+experiment/barc_1/barc_1_control:
+  ros__parameters:
+    dt: 0.1
+    n_laps: 50
+    n_init_laps: 1
+
+    simulation: true
+
+    v_long_max: 4
+    v_long_min: -4
+    v_tran_max: 2
+    v_tran_min: -2
+    w_psi_max : 7
+    w_psi_min : -7
+    u_a_max: 2
+    u_a_min: -2
+    u_steer_max: 0.436
+    u_steer_min: -0.436
+    u_a_rate_max: 10
+    u_a_rate_min: -10
+    u_steer_rate_max: 4.5
+    u_steer_rate_min: -4.5
+
+    pid_steer_params:
+      Kp: 0.3  # 1.0
+      Ki: 0.001  # 0.15
+      Kd: 0.0  # 0.0
+    pid_speed_params:
+      Kp: 0.5  # 2.2
+      Ki: 0.1  # 0.5
+      Kd: 0.0  # 0.02
+      x_ref: 1.0
+
+    mpc_params:
+      N: 20
+      
+      state_scaling: [2.0, 2.0, 7.0, 6.283185307179586, 20.0, 0.6]
+      input_scaling: [2.0, 0.45]
+
+      soft_state_bound_idxs: [5]
+      soft_state_bound_quad: [5]
+      soft_state_bound_lin: [25]
+
+      delay: [1, 1]
+      damping: 0.75
+      qp_iters: 2
+
+      verbose: false
+
+    dynamics_config:
+      model_name: 'dynamic_bicycle_cl'
+
+      discretization_method: 'rk4'
+
+      wheel_dist_front: 0.13
+      wheel_dist_rear: 0.13
+      wheel_dist_center_front: 0.1
+      wheel_dist_center_rear: 0.1
+      bump_dist_front: 0.15
+      bump_dist_rear: 0.15
+      bump_dist_center: 0.1
+
+      mass: 2.2187
+      gravity: 9.81
+      yaw_inertia: 0.02723
+
+      # Tire model parameters:
+      tire_model: 'pacejka'
+      wheel_friction: 0.5
+      pacejka_b_front: 20.0
+      pacejka_c_front: 1.0
+      pacejka_b_rear: 20.0
+      pacejka_c_rear: 1.0
+
+      # tire_model: 'linear'
+      # linear_bf: 5
+      # linear_br: 5
+
+      simple_slip: false
+
+      M: 10
