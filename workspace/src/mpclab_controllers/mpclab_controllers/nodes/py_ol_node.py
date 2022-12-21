@@ -3,8 +3,6 @@
 import rclpy
 from rclpy.qos import qos_profile_sensor_data
 
-import numpy as np
-
 from mpclab_common.msg import VehicleStateMsg, VehicleActuationMsg
 from mpclab_common.pytypes import VehicleActuation, VehicleState
 from mpclab_common.mpclab_base_nodes import MPClabNode

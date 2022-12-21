@@ -1,4 +1,5 @@
 from launch import LaunchDescription
+from launch.actions import ExecuteProcess
 from launch_ros.actions import Node
 
 from ament_index_python.packages import get_package_share_directory
@@ -46,39 +47,7 @@ def generate_launch_description():
             package='mpclab_controllers',
             namespace='experiment/barc_1',
             executable='py_pid_node.py',
-            name='barc_1_control',
-            parameters=[os.path.join(config_dir,'barc_1/controller.yaml')]+global_params
-        ),
-
-        # BARC 2
-        Node(
-            package='mpclab_simulation',
-            namespace='experiment/barc_2',
-            executable='py_sim_dynamics_node.py',
-            name='barc_2_simulator',
-            parameters=[os.path.join(config_dir,'barc_2/vehicle_simulator.yaml')]+global_params
-        ),
-        Node(
-            package='mpclab_simulation',
-            namespace='experiment/barc_2',
-            executable='py_sim_optitrack_node.py',
-            name='barc_2_optitrack',
-            parameters=[os.path.join(config_dir,'barc_2/optitrack_simulator.yaml')]+global_params
-        ),
-
-        Node(
-            package='mpclab_estimation',
-            namespace='experiment/barc_2',
-            executable='py_optitrack_pass_through_estimator_node.py',
-            name='barc_2_estimator',
-            parameters=[os.path.join(config_dir,'barc_2/estimator.yaml')]+global_params
-        ),
-        Node(
-            package='mpclab_controllers',
-            namespace='experiment/barc_2',
-            executable='py_pid_node.py',
-            name='barc_2_control',
-            parameters=[os.path.join(config_dir,'barc_2/controller.yaml')]+global_params
+            name='barc_1_control'
         ),
 
         # Global
@@ -88,5 +57,14 @@ def generate_launch_description():
             executable='py_vis_qt_node.py',
             name='visualizer',
             parameters=[os.path.join(config_dir,'visualization.yaml')]+global_params
+        ),
+
+        ExecuteProcess(
+            cmd=['ros2', 'bag', 'record',
+                    '-o', rosbag_dir,
+                    '--qos-profile-overrides-path', os.path.join(config_dir, 'qos_settings.yaml'),
+                    '/experiment/barc_1/state_input_log',
+                    '/experiment/barc_1/est_state',
+                    '/experiment/barc_1/ecu']
         )
     ])

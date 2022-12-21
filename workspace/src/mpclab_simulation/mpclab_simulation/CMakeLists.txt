@@ -29,7 +29,6 @@ endif()
 
 install(PROGRAMS
   nodes/py_sim_dynamics_node.py
-  nodes/py_sim_imu_node.py
   nodes/py_sim_optitrack_node.py
   DESTINATION lib/${PROJECT_NAME}
 )

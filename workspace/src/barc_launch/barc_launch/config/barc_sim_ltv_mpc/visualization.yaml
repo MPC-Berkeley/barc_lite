@@ -10,8 +10,8 @@ experiment/visualizer:
 
       show_lineplots: true
 
-      state_data_fields: ['p.s', 'p.x_tran', 'v.v_long']
-      state_units: ['m', 'm', 'm/s']
+      state_data_fields: ['v.v_long', 'v.v_tran']
+      state_units: ['m/s', 'm/s']
       
       input_data_fields: ['u_a', 'u_steer']
       input_units: ['m/s^2', 'rad']

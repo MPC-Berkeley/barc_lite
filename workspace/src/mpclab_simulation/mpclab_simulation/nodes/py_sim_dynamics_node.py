@@ -19,6 +19,7 @@ class DynamicsSimNodeParams(NodeParamTemplate):
         self.dt = None
         self.dynamics_config = get_dynamics_model_params(model_name)
         self.initial_config = VehicleState()
+        self.delay = None
 
 class DynamicsSimNode(MPClabNode):
 
@@ -40,7 +41,7 @@ class DynamicsSimNode(MPClabNode):
 
         self.dynamics_config.dt = self.dt
         self.dynamics_config.track_name = self.track_name
-        self.simulator = DynamicsSimulator(t0, self.dynamics_config)
+        self.simulator = DynamicsSimulator(t0, self.dynamics_config, delay=self.delay)
 
         self.u = [0.0,0.0]
 

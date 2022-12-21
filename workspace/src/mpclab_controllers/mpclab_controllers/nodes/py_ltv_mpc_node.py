@@ -19,17 +19,27 @@ from mpclab_common.models.dynamics_models import CasadiDynamicCLBicycle
 from mpclab_common.models.model_types import DynamicBicycleConfig
 from mpclab_common.track import get_track
 
-class LTVMPCControlNodeParams(NodeParamTemplate):
-    '''
-    template that stores all parameters needed for the node as well as default values
-    '''
+class LTVMPCControlNode(MPClabNode):
+
     def __init__(self):
+        super().__init__('ltv_mpc_control')
+        self.get_logger().info('Initializing LTV MPC node')
+        namespace = self.get_namespace()
+
+        # Get handle to ROS clock
+        self.clock = self.get_clock()
+        self.t_start = self.clock.now().nanoseconds/1E9
+
         self.dt = 0.1
         self.n_init_laps = 1
         self.n_laps = 5
         self.track_name = 'L_track_barc'
 
         self.simulation = True
+
+        self.track = get_track(self.track_name)
+        self.L = self.track.track_length
+        self.H = self.track.half_width  
 
         self.v_long_max = 10
         self.v_long_min = -10
@@ -39,50 +49,50 @@ class LTVMPCControlNodeParams(NodeParamTemplate):
         self.w_psi_min  = -10
         self.u_a_max    = 2
         self.u_a_min    = -2
-        self.u_steer_max = 0.45
-        self.u_steer_min = -0.45
-        self.u_a_rate_max    = 5
-        self.u_a_rate_min    = -5
-        self.u_steer_rate_max = 10
-        self.u_steer_rate_min = -10
+        self.u_steer_max = 0.436
+        self.u_steer_min = -0.436
+        self.u_a_rate_max    = 10
+        self.u_a_rate_min    = -10
+        self.u_steer_rate_max = 4.5
+        self.u_steer_rate_min = -4.5
 
-        self.pid_steer_params = PIDParams()
-        self.pid_speed_params = PIDParams()
-        self.dynamics_config = DynamicBicycleConfig()
-        self.mpc_params = CALTVMPCParams()
+        pid_steer_params = PIDParams(dt=self.dt,
+                                     Kp=1.0,
+                                     Ki=0.005,
+                                     Kd=0.0,
+                                     u_min=self.u_steer_min,
+                                     u_max=self.u_steer_max,
+                                     du_min=self.u_steer_rate_min,
+                                     du_max=self.u_steer_rate_max,
+                                     x_ref=0.0)
+        pid_speed_params = PIDParams(dt=self.dt,
+                                     Kp=1.0,
+                                     Ki=0.005,
+                                     Kd=0.0,
+                                     u_min=self.u_a_min,
+                                     u_max=self.u_a_max,
+                                     du_min=self.u_a_rate_min,
+                                     du_max=self.u_a_rate_max,
+                                     x_ref=1.0)
 
-class LTVMPCControlNode(MPClabNode):
+        self.pid_controller = PIDLaneFollower(self.dt, pid_steer_params, pid_speed_params)
 
-    def __init__(self):
-        super().__init__('ltv_mpc_control')
-        self.get_logger().info('Initializing LTV MPC node')
-        namespace = self.get_namespace()
-
-        param_template = LTVMPCControlNodeParams()
-        self.autodeclare_parameters(param_template, namespace)
-        self.autoload_parameters(param_template, namespace)
-
-        # Get handle to ROS clock
-        self.clock = self.get_clock()
-        self.t_start = self.clock.now().nanoseconds/1E9
-
-        self.track = get_track(self.track_name)
-        self.L = self.track.track_length
-        self.H = self.track.half_width  
-
-        self.pid_speed_params.u_max = self.u_a_max
-        self.pid_speed_params.u_min = self.u_a_min
-        self.pid_speed_params.du_max = self.u_a_rate_max
-        self.pid_speed_params.du_min = self.u_a_rate_min
-
-        self.pid_steer_params.u_max = self.u_steer_max
-        self.pid_steer_params.u_min = self.u_steer_min
-        self.pid_steer_params.du_max = self.u_steer_rate_max
-        self.pid_steer_params.du_min = self.u_steer_rate_min
-
-        self.pid_controller = PIDLaneFollower(self.dt, self.pid_steer_params, self.pid_speed_params)
-
-        self.dynamics_config.dt = self.dt
+        self.dynamics_config = DynamicBicycleConfig(dt=self.dt,
+                                                    model_name='dynamic_bicycle_cl',
+                                                    discretization_method='rk4',
+                                                    wheel_dist_front=0.13,
+                                                    wheel_dist_rear=0.13,
+                                                    mass=2.2187,
+                                                    gravity=9.81,
+                                                    yaw_inertia=0.02723,
+                                                    tire_model='pacejka',
+                                                    wheel_friction=0.96,
+                                                    pacejka_b_front=4.0,
+                                                    pacejka_c_front=2.5,
+                                                    pacejka_b_rear=4.0,
+                                                    pacejka_c_rear=2.5,
+                                                    simple_slip=False,
+                                                    M=10)
         self.dynamics = CasadiDynamicCLBicycle(self.t_start, self.dynamics_config, track=self.track)
 
         state_input_ub = VehicleState(p=ParametricPose(s=2*self.L, x_tran=(self.H-0.1), e_psi=100),
@@ -96,11 +106,24 @@ class LTVMPCControlNode(MPClabNode):
         input_rate_ub = VehicleState(u=VehicleActuation(u_a=self.u_a_rate_max, u_steer=self.u_steer_rate_max))
         input_rate_lb = VehicleState(u=VehicleActuation(u_a=self.u_a_rate_min, u_steer=self.u_steer_rate_min))
 
+        self.mpc_params = CALTVMPCParams(dt=self.dt,
+                                         N=20,
+                                         state_scaling=[2.0, 2.0, 7.0, 6.283185307179586, 20.0, 0.6],
+                                         input_scaling=[2.0, 0.45],
+                                         soft_state_bound_idxs=[5],
+                                         soft_state_bound_quad=[5],
+                                         soft_state_bound_lin=[25],
+                                         delay=[2, 2],
+                                         damping=0.5,
+                                         qp_iters=2,
+                                         verbose=False)
+
         # Define state reference
         D = (self.n_laps+1)*self.L
-        v_ref = 1.2
+        v_ref = 1.0
         s_ref = np.linspace(0, D, int(D/(v_ref*self.dt)))
-        ey_ref = 0.25*np.sin(2*np.pi*6*s_ref/(self.L-1))
+        # ey_ref = 0.25*np.sin(2*np.pi*6*s_ref/(self.L-1))
+        ey_ref = np.zeros(len(s_ref))
         self.q_ref = []
         for s, ey in zip(s_ref, ey_ref):
             self.q_ref.append(np.array([v_ref, 0, 0, 0, s, ey]))

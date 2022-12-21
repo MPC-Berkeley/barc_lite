@@ -38,26 +38,3 @@ class OptiTrackSimConfig(PythonMsg):
     offset_roll: float      = field(default = 0)
     offset_pitch: float     = field(default = 0)
     offset_yaw: float       = field(default = 0)
-
-@dataclass
-class IMUSimConfig(PythonMsg):
-    n_bound: float  = field(default = 0.5)
-
-    yaw_std: float          = field(default = None)
-    pitch_std: float        = field(default = None)
-    roll_std: float         = field(default = None)
-
-    yaw_dot_std: float      = field(default = None)
-    roll_dot_std: float     = field(default = None)
-    pitch_dot_std: float    = field(default = None)
-
-    a_long_std: float       = field(default = None)
-    a_tran_std: float       = field(default = None)
-    a_vert_std: float       = field(default = None)
-
-    offset_long: float      = field(default = 0)
-    offset_tran: float      = field(default = 0)
-    offset_vert: float      = field(default = 0)
-    offset_yaw: float       = field(default = 0)
-    offset_pitch: float     = field(default = 0)
-    offset_roll: float      = field(default = 0)

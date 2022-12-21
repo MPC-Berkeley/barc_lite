@@ -60,7 +60,6 @@ def generate_launch_description():
             namespace='experiment/barc_1',
             executable='py_ltv_mpc_node.py',
             name='barc_1_control',
-            parameters=[os.path.join(config_dir, 'barc_1/controller.yaml')]+global_params,
             output='screen'
         ),
         
@@ -70,6 +69,8 @@ def generate_launch_description():
                     '--qos-profile-overrides-path', os.path.join(config_dir, 'qos_settings.yaml'),
                     '/experiment/barc_1/state_input_log',
                     '/experiment/barc_1/est_state',
-                    '/experiment/barc_1/ecu']
+                    '/experiment/barc_1/ecu',
+                    '/experiment/barc_1/pred',
+                    '/experiment/barc_1/ref']
         )
     ])
