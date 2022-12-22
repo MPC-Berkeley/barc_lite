@@ -13,7 +13,7 @@ exp_name = 'barc_sim_project'
 
 launch_files_dir = get_package_share_directory('barc_launch')
 config_dir = os.path.join(launch_files_dir, 'config', exp_name)
-rosbag_dir = '/data/' + exp_name + datetime.now().strftime('_%m-%d-%Y_%H-%M-%S')
+rosbag_dir = '/project_data/' + exp_name + datetime.now().strftime('_%m-%d-%Y_%H-%M-%S')
 
 global_params_file = os.path.join(config_dir, 'global_params.yaml')
 global_params = read_yaml_file(global_params_file)
@@ -59,14 +59,14 @@ def generate_launch_description():
             parameters=[os.path.join(config_dir,'visualization.yaml')]+global_params
         ),
 
-        # ExecuteProcess(
-        #     cmd=['ros2', 'bag', 'record',
-        #             '-o', rosbag_dir,
-        #             '--qos-profile-overrides-path', os.path.join(config_dir, 'qos_settings.yaml'),
-        #             '/experiment/barc_1/state_input_log',
-        #             '/experiment/barc_1/est_state',
-        #             '/experiment/barc_1/ecu',
-        #             '/experiment/barc_1/pred',
-        #             '/experiment/barc_1/ref']
-        # )
+        ExecuteProcess(
+            cmd=['ros2', 'bag', 'record',
+                    '-o', rosbag_dir,
+                    '--qos-profile-overrides-path', os.path.join(config_dir, 'qos_settings.yaml'),
+                    '/experiment/barc_1/state_input_log',
+                    '/experiment/barc_1/est_state',
+                    '/experiment/barc_1/ecu',
+                    '/experiment/barc_1/pred',
+                    '/experiment/barc_1/ref']
+        )
     ])

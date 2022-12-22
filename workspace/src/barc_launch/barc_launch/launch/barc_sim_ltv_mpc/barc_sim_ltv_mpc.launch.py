@@ -14,7 +14,7 @@ exp_name = 'barc_sim_ltv_mpc'
 
 launch_files_dir = get_package_share_directory('barc_launch')
 config_dir = os.path.join(launch_files_dir, 'config', exp_name)
-rosbag_dir = '/data/' + exp_name + datetime.now().strftime('_%m-%d-%Y_%H-%M-%S')
+rosbag_dir = '/project_data/' + exp_name + datetime.now().strftime('_%m-%d-%Y_%H-%M-%S')
 
 global_params_file = os.path.join(config_dir, 'global_params.yaml')
 global_params = read_yaml_file(global_params_file)
