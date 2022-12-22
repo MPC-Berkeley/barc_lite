@@ -21,11 +21,6 @@ class AbstractController(ABC):
         pass
 
     @abstractmethod
-    def solve(self):
-        pass
-
-
-    @abstractmethod
     def step(self, estimated_state: VehicleState, env_state):
         '''
         Update the controller on the estimated state of the vehicle and its environment.
