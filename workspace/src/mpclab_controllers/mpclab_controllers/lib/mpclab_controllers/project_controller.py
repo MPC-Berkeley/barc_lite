@@ -6,6 +6,7 @@ from mpclab_common.pytypes import VehicleState, VehiclePrediction
 from mpclab_common.track import get_track
 from mpclab_controllers.abstract_controller import AbstractController
 
+# The ProjectController class will be instantiated when creating the ROS node.
 class ProjectController(AbstractController):
     def __init__(self, dt: float, print_method=print):
         # The control interval is set at 10 Hz
@@ -31,8 +32,8 @@ class ProjectController(AbstractController):
         self.L = self.track.track_length
         self.W = self.track.track_width
 
-    # This method will be called when initializing the ROS node
-    def initialize(self):
+    # This method will be called upon starting the control loop
+    def initialize(self, vehicle_state: VehicleState):
         pass
 
     # This method will be called once every time step, make sure to modify the vehicle_state

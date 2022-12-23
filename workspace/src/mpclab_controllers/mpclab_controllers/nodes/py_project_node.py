@@ -32,7 +32,6 @@ class ProjectControlNode(MPClabNode):
 
         self.controller = ProjectController(self.dt,
                                             print_method=self.get_logger().info)
-        self.controller.initialize()
 
         self.state = VehicleState()
         self.input = VehicleActuation(u_a=0, u_steer=0)
@@ -98,6 +97,7 @@ class ProjectControlNode(MPClabNode):
                 self.controller_mode = 'run'
                 self.lap_start = self.get_ros_time()
                 self.state_prev = copy.deepcopy(self.state)
+                self.controller.initialize(self.state)
                 self.get_logger().info(f'===== Starting lap {self.lap_number} with controller {self.controller_mode} =====')
         elif self.controller_mode == 'run':
             # Convert global to local coords, stop controller if car is outside track
