@@ -57,7 +57,7 @@ root@c61471807e47:/barc_lite/workspace
 
 The alphanumeric string after the `@` symbol is the container ID and will change everytime you launch a new container of the image.
 
-***NOTE***: You may modify the contents of the container by adding files or installing new packages, but once you log out and delete the instance, all of those changes will be lost. Please see the instructions below for how to create a Docker Volume to persist data after container deletion.
+***NOTE***: You may modify the contents of the container by adding files or installing new packages, but once you log out and delete the instance, all of those changes will be lost.
 
 ### Stopping the Container
 
