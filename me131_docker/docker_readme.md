@@ -29,6 +29,8 @@ Please follow the instructions [here](https://docs.docker.com/desktop/install/li
 
 Please follow the instructions [here](https://docs.docker.com/desktop/install/mac-install/) (https://docs.docker.com/desktop/install/mac-install/)
 
+***NOTE***: The installation instructions are diffrent depending on whether your Mac uses an Apple or Intel CPU. See [here](https://support.apple.com/en-us/HT211814) for a list of Macs with Apple silicon. You must launch the Docker Desktop application before running any `docker` commands.
+
 ## Obtaining the Image from DockerHub
 
 The Docker image which will be used in the class is hosted on [DockerHub](https://hub.docker.com/repository/docker/mpclab/me131). After installing Docker on your machine, make sure you have a working Internet connection and open up a terminal and run the command:
@@ -52,7 +54,7 @@ docker run -it mpclab/me131
 Running this command should drop you into a `bash` shell running inside the container which allows you to interact with the contents of the container and to run executables. You should see the command line prompt change to something like:
 
 ```
-root@c61471807e47:/barc_lite/workspace
+root@c61471807e47:/#
 ```
 
 The alphanumeric string after the `@` symbol is the container ID and will change everytime you launch a new container of the image.
@@ -174,7 +176,7 @@ You should additionally be able to use the arrow keys to make the turtle move.
 
 - Download and install [Xming](https://sourceforge.net/projects/xming/).
 
-- Open Xming. A Windows Firewall window may pop up on the first time you open VNC Viewer. Allow the application on both Private and Public networks.
+- Start Xming. A Windows Firewall window may pop up on the first time you open VNC Viewer. Allow the application on both Private and Public networks.
 
 - In a host PowerShell terminal, launch an instance of a Docker container with the flag `-e DISPLAY=host.docker.internal:0`, e.g.
 
@@ -242,7 +244,39 @@ You should additionally be able to use the arrow keys to make the turtle move.
 
 ### MacOS
 
-***TODO***
+- Download and install [XQuartz](https://www.xquartz.org/). Make sure to log out and log back in to your account after installation is complete before proceeding with the following steps.
+
+- Start XQuartz. Go to Preferences by clicking **XQuartz** then **Preferences...** in the menu bar. In the X11 Preferences window, click on the **Security** tab and check the box for **Allow connections from network clients**.
+
+- Obtain your the IP address of your host network adapter with the following command. This will save your IP address into the environment variable `IP`.
+
+    ```
+    IP=$(ifconfig en0 | grep inet | awk '$1=="inet" {print $2}')
+    ```
+
+    Verify the IP address is correct using the command `echo $IP`.
+
+- In a host terminal run the command `xhost + $IP`. This will whitelist your IP for display forwarding. You should see the following message after running the command
+
+    ```
+    <IP> being added to access control list
+    ``` 
+
+    where `<IP>` is your IP address.
+
+- In a host terminal, launch an instance of a Docker container with the following command.
+
+    ```
+    docker run -it -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$IP:0 mpclab/me131
+    ```
+
+- In the Docker container, launch the graphical application, e.g.
+    
+    ```
+    ros2 run turtlesim turtlesim_node & ros2 run turtlesim turtle_teleop_key
+    ```
+
+- A window should open showing a similar image to the one above
 
 ## Using Jupyter Lab
 
