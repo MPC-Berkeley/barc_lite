@@ -130,4 +130,14 @@ In the second cell of the notebook, set the variable `db_dir` to the name of the
 
 ## BARC Vehicle Parameters
 
-***TODO***
+- CoM to front axel: $0.13 \ m$
+- CoM to rear axel: $0.13 \ m$
+- Vehicle length: $0.37 \ m$
+- Vehicle width: $0.19 \ m$
+- Mass: $2.2187 \ kg$
+- Yaw inertia: $0.02723 \ kg \cdot m^2$
+- Wheel friction coefficient: $0.9$
+- Drag coefficient: $0$
+- Pacejka coefficients:
+  - B: $5$
+  - C: $2.28$
