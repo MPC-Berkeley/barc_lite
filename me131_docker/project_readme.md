@@ -128,6 +128,9 @@ Open up the notebook by navigating to the containing directory and double clicki
 
 In the second cell of the notebook, set the variable `db_dir` to the name of the data folder you want to visualize then run the notebook. You should see two plots show up. The first is a top down view of the track with the x-y trace of the car plotted on it. The second is a set of time history subplots for some of the vehicle states and inputs.
 
+## Working with the Track Object
+We have additionally provided you with a Jupyter notebook with examples on how to interact with the track object to retrieve information such as the positions of the track boundaries and how to convert between global and local frame coordinates via a class method of the track object. It is located at `/barc_lite/notebooks/track_demo.ipynb`.
+
 ## BARC Vehicle Parameters
 
 - CoM to front axel: $0.13 \ m$
