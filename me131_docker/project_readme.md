@@ -141,3 +141,7 @@ In the second cell of the notebook, set the variable `db_dir` to the name of the
 - Pacejka coefficients:
   - B: $5$
   - C: $2.28$
+- Steering angle upper bound: $0.43 \ rad$
+- Steering angle lower bound: $-0.43 \ rad$
+- Acceleration upper bound: $1.0 \ m/s^2$
+- Acceleration lower bound: $-2.0 \ m/s^2$
