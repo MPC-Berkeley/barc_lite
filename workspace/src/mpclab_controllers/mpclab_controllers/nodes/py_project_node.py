@@ -23,7 +23,7 @@ class ProjectControlNode(MPClabNode):
         self.t_start = self.clock.now().nanoseconds/1E9
 
         self.dt = 0.1
-        self.n_laps = 50
+        self.n_laps = 5
         
         self.track_name = 'L_track_barc'
         self.track = get_track(self.track_name)

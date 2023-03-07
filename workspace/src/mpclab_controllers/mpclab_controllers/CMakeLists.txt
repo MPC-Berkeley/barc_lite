@@ -28,8 +28,6 @@ if(BUILD_TESTING)
 endif()
 
 install(PROGRAMS
-  nodes/py_pid_node.py
-  nodes/py_ltv_mpc_node.py
   nodes/py_project_node.py
   DESTINATION lib/${PROJECT_NAME}
 )

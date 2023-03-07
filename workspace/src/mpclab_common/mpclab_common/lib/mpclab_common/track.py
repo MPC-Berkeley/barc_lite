@@ -1,7 +1,6 @@
 import numpy as np
 
 from mpclab_common.tracks.radius_arclength_track import RadiusArclengthTrack
-from mpclab_common.tracks.cubic_spline_track import CubicSplineTrack
 from mpclab_common.tracks.generate_tracks import get_save_folder
 
 import pdb
@@ -26,8 +25,6 @@ def get_track(track_file):
     if npzfile['save_mode'] == 'radius_and_arc_length':
         track = RadiusArclengthTrack()
         track.initialize(npzfile['track_width'], npzfile['slack'], npzfile['cl_segs'])
-    elif npzfile['save_mode'] == 'cubic_spline':
-        track = CubicSplineTrack(npzfile['track_width'],npzfile['cs'])
     else:
         raise NotImplementedError('Unknown track save mode: %s'%npzfile['save_mode'])
         

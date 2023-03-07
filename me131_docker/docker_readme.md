@@ -13,6 +13,8 @@ The Docker container runs an instance of Ubuntu 20.04 with ROS2 Foxy and certain
 
 ## Docker Installation
 
+For some background reading on what Docker is and definitions of some of the terminology used below, please see [here](https://docs.docker.com/get-started/overview/) and [here](https://www.educative.io/blog/beginners-guide-to-docker). 
+
 ### Windows 10 and 11
 
 Please follow the instructions [here](https://docs.docker.com/desktop/install/windows-install/) (https://docs.docker.com/desktop/install/windows-install/). Make sure to follow the instructions pertaining to the installation of WSL 2 as a prerequisite.
@@ -29,7 +31,12 @@ Please follow the instructions [here](https://docs.docker.com/desktop/install/li
 
 Please follow the instructions [here](https://docs.docker.com/desktop/install/mac-install/) (https://docs.docker.com/desktop/install/mac-install/)
 
-***NOTE***: The installation instructions are diffrent depending on whether your Mac uses an Apple or Intel CPU. See [here](https://support.apple.com/en-us/HT211814) for a list of Macs with Apple silicon. You must launch the Docker Desktop application before running any `docker` commands.
+***NOTE***: The installation instructions are diffrent depending on whether your Mac uses an Apple or Intel CPU. See [here](https://support.apple.com/en-us/HT211814) for a list of Macs with Apple silicon. You must launch the Docker Desktop application before running any `docker` commands. For older models of Macs, launching Docker may take a while.
+
+
+## General Note
+
+For the remainder of the document, any command beginning with `docker` should be run in a terminal window on the host machine and **NOT** inside a running container.
 
 ## Obtaining the Image from DockerHub
 
@@ -95,7 +102,7 @@ docker exec -it hardcore_chatterjee /bin/bash
 
 ### Deleting a Container
 
-To delete a container, we first have to make sure that it has been stopped. To do so use the command
+To delete a container, we first have to make sure that it has been stopped. To do so, open a new terminal window on your host machine and use the following command:
 
 ```
 docker stop <CONTAINER_ID>
@@ -166,11 +173,9 @@ In order to access the files in the volume on your host machine, you can find th
 
 ## Forwarding GUI Apps from Container to Host
 
-This section describes how to forward the graphical elements of any application being run inside of the Docker container to your host OS. The examples below should result in a window opening which shows something like this:
+This section describes how to forward the graphical elements of any application being run inside of the Docker container to your host OS. The examples below should result in a window opening on the desktop of your host machine which shows something like the following image, where you should additionally be able to use the arrow keys to make the turtle move.
 
 ![](imgs/turtlesim.png)
-
-You should additionally be able to use the arrow keys to make the turtle move.
 
 ### Windows 10 and 11 (x11)
 

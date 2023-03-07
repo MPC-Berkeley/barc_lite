@@ -32,6 +32,22 @@ class ProjectController(AbstractController):
         self.L = self.track.track_length
         self.W = self.track.track_width
 
+        # Example for obtaining the x-y points of the track boundaries
+        track_xy = self.track.get_track_xy()
+        bound_in_xy = track_xy['bound_in']
+        bound_out_xy = track_xy['bound_out'] 
+
+        # Convert x-y points to frenet frame
+        bound_in_sey = []
+        for _x, _y in zip(bound_in_xy['x'], bound_in_xy['y']):
+            _s, _ey, _, = self.track.global_to_local((_x, _y, 0))
+            bound_in_sey.append([_s, _ey])
+
+        bound_out_sey = []
+        for _x, _y in zip(bound_out_xy['x'], bound_out_xy['y']):
+            _s, _ey, _, = self.track.global_to_local((_x, _y, 0))
+            bound_out_sey.append([_s, _ey])
+
     # This method will be called upon starting the control loop
     def initialize(self, vehicle_state: VehicleState):
         pass

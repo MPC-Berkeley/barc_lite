@@ -36,10 +36,6 @@ experiment/visualizer:
       input_topics: ['ecu']
       input_trace_styles: ['solid']
 
-      show_pred: false
-
-      show_point_set: false
-
-      show_cov: false
-
-      simulated: true
+      show_pred: true
+      pred_topics: ['pred', 'ref']
+      pred_styles: ['solid', 'dash']

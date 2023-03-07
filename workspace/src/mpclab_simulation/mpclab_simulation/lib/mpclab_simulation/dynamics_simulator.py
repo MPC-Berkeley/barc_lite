@@ -16,11 +16,11 @@ class DynamicsSimulator():
     def __init__(self, t0: float, dynamics_config, delay=None, track=None):
         # delay: delay time in seconds for each input channel
         self.model = get_dynamics_model(t0, dynamics_config, track=track)
-        if delay is not None:
-            self.delay_steps = [int(d/self.model.dt) for d in delay]
-            self.delay_buffer = [deque([0 for _ in range(self.delay_steps[i])], maxlen=self.delay_steps[i]) for i in range(self.model.n_u)]
+        if delay is not None and delay > 0:
+            self.delay_steps = int(delay/self.model.dt)
+            self.delay_buffer = [deque([0 for _ in range(self.delay_steps)], maxlen=self.delay_steps) for _ in range(self.model.n_u)]
         else:
-            self.delay_steps = [0 for _ in range(self.model.n_u)]
+            self.delay_steps = 0
             self.delay_buffer = None
         return
 

@@ -1,6 +1,6 @@
 # An Tutorial on Developing for the ME 131 Class Project
 
-This tutorial assumes that you have the Docker environment set up correctly according to the instructions in `docker_readme.md`. This tutorial will guide you through how to test your own controllers in simulation with ROS, to log the generated data, and to visualize it.
+This tutorial assumes that you have the Docker environment set up correctly according to the instructions in `docker_readme.md`. This tutorial will guide you through how to test your own controllers in simulation with ROS, to log the generated data, and to visualize it. Though it is not required, if you would like to learn more about ROS, you can find documentation on it [here](https://docs.ros.org/en/foxy/index.html).
 
 ## Setting up your Project Files
 
@@ -21,7 +21,7 @@ Let us begin by setting up directories for your project code and the data which 
 
 ## Launching the Docker Container
 
-Now, we will launch the Docker container using the flags that were discussed in `docker_readme.md`. For this example, I have set up the project directory at `C:\Users\zhued\Documents\`. I will refer to this path as `<PREFIX>` for the remainder of this tutorial. When following along, make sure to replace `<PREFIX>` with the location you have chosen.
+Now, we will launch the Docker container using the flags that were discussed in [`docker_readme.md`](docker_readme.md). For this example, I have set up the project directory at `C:\Users\zhued\Documents\`. I will refer to this path as `<PREFIX>` for the remainder of this tutorial. When following along, make sure to replace `<PREFIX>` with the location you have chosen.
 
 For this Docker container, I would like to mount the `project_files/code` and `project_files/data` directories to `/project_code` and `/project_data` inside the container respectively, enable graphical forwarding via x11, and expose the port 8888 in order to use Jupyter Lab for data visualization.
 
@@ -49,7 +49,7 @@ which launches ROS nodes as specified in the launch file `/barc_lite/workspace/s
 
 ## Modifying the Controller
 
-Now let's try modifying the controller to output a time-varying signal for both acceleration and steering. Note that this part of the tutorial can be used as a workflow for your project.
+Now let's try modifying the controller to output a time-varying signal for both acceleration and steering. Note that this part of the tutorial can be used as an example of a workflow for your project.
 
 Start by opening up the copy of `project_controller.py` in the directory that we created earlier. 
 
@@ -113,7 +113,7 @@ While you can certainly modify the version of `project_controller.py` at `/barc_
 
 ## Visualizing the Logged Data
 
-By default, each time you ran the experiments from the previous section, the data from the experiment was being logged by way of a rosbag. You should see a folder show up in `<PREFIX>/project_files/data` with a name similar to `barc_sim_project_12-23-2022_16-55-57`. These folders contain SQL databases which have recorded the ROS messages which were published to certain topics, e.g. the vehicle state, actuation commands, predictions, etc..
+By default, each time you run the experiments from the previous section, the data from the experiment is logged by way of a [rosbag](https://docs.ros.org/en/foxy/Tutorials/Beginner-CLI-Tools/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.html). You should see a folder show up in `<PREFIX>/project_files/data` with a name similar to `barc_sim_project_12-23-2022_16-55-57`. These folders contain SQL databases which have recorded the ROS messages which were published to certain topics, e.g. the vehicle state, actuation commands, predictions, etc..
 
 We have provided you with a Jupyter notebook which provides an example on how to unpack the data and plot it. It is located at `/barc_lite/notebooks/plot_run_data.ipynb`.
 

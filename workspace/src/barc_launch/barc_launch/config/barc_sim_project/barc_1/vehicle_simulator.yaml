@@ -4,7 +4,7 @@ experiment/barc_1/barc_1_simulator:
     # Simulator time step
     dt: 0.01
 
-    # delay: [0.2, 0.2]
+    # delay: 0.1
 
     dynamics_config:
       model_name: 'dynamic_bicycle'
@@ -25,17 +25,16 @@ experiment/barc_1/barc_1_simulator:
 
       # Tire model parameters:
       tire_model: 'pacejka'
-      wheel_friction: 0.96
-      pacejka_b_front: 4
-      pacejka_c_front: 2.5
-      pacejka_b_rear: 4
-      pacejka_c_rear: 2.5
+      wheel_friction: 0.9
+      pacejka_b_front: 5.0
+      pacejka_c_front: 2.28
+      pacejka_b_rear: 5.0
+      pacejka_c_rear: 2.28
 
       simple_slip: false
 
       M: 10
 
-    # Offset parameters:
     initial_config:
       # Initial position of car relative to track origin, initial heading is assumed to be 0 (body +x aligned with track +x)
       x:
@@ -46,8 +45,3 @@ experiment/barc_1/barc_1_simulator:
         psi: 0.0
       v:
         v_long: 0.01
-
-    # delay in the simulator:
-    lowLevelDyn: false
-    delay_df: 0.0
-    delay_a: 0.0
