@@ -79,7 +79,7 @@ def step(self, vehicle_state: VehicleState):
 
 which will result in the acceleration oscillating between 0 and 0.6 m/s^2 and steering oscillating between -0.2 and 0.2 radians both with a period of 1 second. Note that the definition of the `VehicleState` dataclass can be found [here](https://github.com/MPC-Berkeley/barc_lite/blob/8260d93c1922d0b01537ada339514e1fee795b6d/workspace/src/mpclab_common/mpclab_common/lib/mpclab_common/pytypes.py#L300).
 
-Now it is important to note here that we have modfied the version of `project_controller.py` on the host machine, and thereby in `/project_code` of the container by virtue of directory mounting. However, if we were to run the experiment again, we would see no difference in behavior. This is because we have not changed the actual code which is being built into the ROS package. To do so, we have provided you with the `bash` script `/barc_lite/workspace/copy_and_rebuild.sh`, which is reproduced below
+Now it is important to note here that we have modfied the version of `project_controller.py` on the host machine, and thereby in `/project_code` of the container by virtue of directory mounting. However, if we were to run the experiment again, we would see no difference in behavior. This is because we have not changed the actual code which is being built into the ROS package. To do so, we have provided you with the `bash` script `/barc_lite/workspace/copy_and_build.sh`, which is reproduced below
 
 ```bash
 #!/bin/bash
