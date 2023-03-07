@@ -71,13 +71,13 @@ Now in the `step` method, we need to compute the elapsed time every time the met
 ```python
 def step(self, vehicle_state: VehicleState):
     t = vehicle_state.t - self.t0
-    accel = 0.3*np.sin(t/(2*np.pi)*5) + 0.3
-    steer = 0.2*np.sin(t/(2*np.pi)*5)
+    accel = 0.3*np.sin(t/1*(2*np.pi)) + 0.3
+    steer = 0.2*np.sin(t/1*(2*np.pi))
     vehicle_state.u.u_a = accel
     vehicle_state.u.u_steer = steer
 ```
 
-which will result in the acceleration oscillating between 0 and 0.6 m/s^2 and steering oscillating between -0.2 and 0.2 radians both with a period of 5 seconds. Note that the definition of the `VehicleState` dataclass can be found [here](https://github.com/MPC-Berkeley/barc_lite/blob/8260d93c1922d0b01537ada339514e1fee795b6d/workspace/src/mpclab_common/mpclab_common/lib/mpclab_common/pytypes.py#L300).
+which will result in the acceleration oscillating between 0 and 0.6 m/s^2 and steering oscillating between -0.2 and 0.2 radians both with a period of 1 second. Note that the definition of the `VehicleState` dataclass can be found [here](https://github.com/MPC-Berkeley/barc_lite/blob/8260d93c1922d0b01537ada339514e1fee795b6d/workspace/src/mpclab_common/mpclab_common/lib/mpclab_common/pytypes.py#L300).
 
 Now it is important to note here that we have modfied the version of `project_controller.py` on the host machine, and thereby in `/project_code` of the container by virtue of directory mounting. However, if we were to run the experiment again, we would see no difference in behavior. This is because we have not changed the actual code which is being built into the ROS package. To do so, we have provided you with the `bash` script `/barc_lite/workspace/copy_and_rebuild.sh`, which is reproduced below
 
@@ -104,7 +104,7 @@ colcon build --symlink-install
 To run this script, navigate to the directory `/barc_lite/workspace` in the container and use the command
 
 ```bash
-./copy_and_rebuild.sh
+./copy_and_build.sh
 ```
 
 This will then copy the contents of `/project_code` (by default) into the correct directory then rebuild the ROS packages. After executing this script, if we were to run the experiment again, we should see the speed and heading of the car oscillate.
