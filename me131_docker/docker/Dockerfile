@@ -3,6 +3,9 @@ FROM ros:foxy-ros-base
 
 RUN apt update
 
+# Text editor
+RUN apt install nano
+
 # To test graphical forwarding
 RUN apt install -y ros-foxy-turtlesim
 

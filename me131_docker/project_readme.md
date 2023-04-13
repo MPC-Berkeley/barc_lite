@@ -111,6 +111,19 @@ This will then copy the contents of `/project_code` (by default) into the correc
 
 While you can certainly modify the version of `project_controller.py` at `/barc_lite/workspace/src/mpclab_controllers/mpclab_controllers/lib/mpclab_controllers/project_controller.py` directly, the reason we have set up this workflow is to minimize the chance that you lose the changes you made if the container gets deleted, since storage in a container is ephemeral.
 
+## Modifying the Vehicle Dynamics Simulator
+
+You may also modify the parameters of the vehicle dynamics simulator. The file which contains these values is located at `/barc_lite/workspace/src/barc_launch/barc_launch/config/barc_sim_project/barc_1/vehicle_simulator.yaml`. The default values can be seen [here](https://github.com/MPC-Berkeley/barc_lite/blob/main/workspace/src/barc_launch/barc_launch/config/barc_sim_project/barc_1/vehicle_simulator.yaml). To edit the file, use the following commands:
+
+```bash
+cd /barc_lite/workspace/src/barc_launch/barc_launch/config/barc_sim_project/barc_1
+nano vehicle_simulator.yaml
+```
+
+This will open up the file using the text editor `nano`. Some key parameters that you may want to modify are `delay`, which allows you to specify the input delay in seconds, and `initial_config`, which allows you to set the initial condition of the vehicle. After you've made your edits, press `ctrl + o` and `enter` to save the file and then `ctrl + x` to exit the text editor. 
+
+***NOTE***: This method of editing the parameter file is not permanent and the default values will be restored when starting a new container.
+
 ## Visualizing the Logged Data
 
 By default, each time you run the experiments from the previous section, the data from the experiment is logged by way of a [rosbag](https://docs.ros.org/en/foxy/Tutorials/Beginner-CLI-Tools/Recording-And-Playing-Back-Data/Recording-And-Playing-Back-Data.html). You should see a folder show up in `<PREFIX>/project_files/data` with a name similar to `barc_sim_project_12-23-2022_16-55-57`. These folders contain SQL databases which have recorded the ROS messages which were published to certain topics, e.g. the vehicle state, actuation commands, predictions, etc..
