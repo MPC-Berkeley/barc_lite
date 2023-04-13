@@ -14,7 +14,7 @@ RUN python3 -m pip install -U pip
 
 # Install Python dependencies
 RUN python3 -m pip install -U numpy scipy matplotlib
-RUN python3 -m pip install casadi pyqtgraph
+RUN python3 -m pip install casadi==3.5.5 pyqtgraph
 RUN python3 -m pip install pyqt5
 
 # Install Jupyter Lab
