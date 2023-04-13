@@ -2,6 +2,7 @@
 
 import numpy as np
 import scipy.linalg as la
+from scipy.integrate import solve_ivp
 
 import casadi as ca
 
@@ -150,7 +151,10 @@ class CasadiDynamicsModel(AbstractModel):
         t = vehicle_state.t - self.t0
         tf = t + self.dt
 
-        q_n = self.rk4(q, u, self.fc, self.M, self.h).toarray().squeeze()
+        # q_n = self.rk4(q, u, self.fc, self.M, self.h).toarray().squeeze()
+        sol = solve_ivp(lambda t, z: np.array(self.fc(z, u)).squeeze(), (0, self.dt), q, t_eval=[self.dt])
+        q_n = sol.y.squeeze()
+        
         a_l, a_t = self.f_a(q_n, u)
 
         self.qu2state(vehicle_state, q_n, u)
