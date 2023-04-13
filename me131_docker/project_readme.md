@@ -19,6 +19,8 @@ Let us begin by setting up directories for your project code and the data which 
             - <empty>
     ```
 
+***NOTE***: The directory `project_files/code` may contain other files which are used in `project_controller.py`. For example, a tracking reference, utilities library, etc. These files will all be included when the ROS package is built.
+
 ## Launching the Docker Container
 
 Now, we will launch the Docker container using the flags that were discussed in [`docker_readme.md`](docker_readme.md). For this example, I have set up the project directory at `C:\Users\zhued\Documents\`. I will refer to this path as `<PREFIX>` for the remainder of this tutorial. When following along, make sure to replace `<PREFIX>` with the location you have chosen.
@@ -110,6 +112,8 @@ To run this script, navigate to the directory `/barc_lite/workspace` in the cont
 This will then copy the contents of `/project_code` (by default) into the correct directory then rebuild the ROS packages. After executing this script, if we were to run the experiment again, we should see the speed and heading of the car oscillate.
 
 While you can certainly modify the version of `project_controller.py` at `/barc_lite/workspace/src/mpclab_controllers/mpclab_controllers/lib/mpclab_controllers/project_controller.py` directly, the reason we have set up this workflow is to minimize the chance that you lose the changes you made if the container gets deleted, since storage in a container is ephemeral.
+
+While you are free to design your controller however you want, keep in mind that it needs to run at **10 Hz** on a desktop with an Intel Core i9-12900KF CPU and 64 GB of RAM. This is especially important if you plan on designing any optimization based control. The container comes with `numpy`, `scipy`, and [`casadi`](https://web.casadi.org/), which contains tools for performing optimization based control design.
 
 ## Modifying the Vehicle Dynamics Simulator
 
