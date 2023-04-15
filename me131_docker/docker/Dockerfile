@@ -17,6 +17,16 @@ RUN python3 -m pip install -U numpy scipy matplotlib
 RUN python3 -m pip install casadi==3.5.5 pyqtgraph
 RUN python3 -m pip install pyqt5
 
+# Install pyomo and ipopt
+RUN apt install -y wget
+ENV CONDA_DIR /opt/conda
+RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh && \
+     /bin/bash ~/miniconda.sh -b -p /opt/conda
+ENV PATH=$PATH:$CONDA_DIR/bin
+
+RUN python3 -m pip install pyomo
+RUN conda install -c conda-forge ipopt  
+
 # Install Jupyter Lab
 RUN python3 -m pip install -U jupyter
 RUN python3 -m pip install jupyterlab
