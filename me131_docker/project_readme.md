@@ -150,6 +150,8 @@ We have additionally provided you with a Jupyter notebook with examples on how t
 
 ## BARC Vehicle Parameters
 
+The vehicle is built on top of the [Traxxas 1/10th scale 4-Tec 2.0 VXL AWD Chassis](https://traxxas.com/products/models/electric/4-tec-2-vxl-chassis).
+
 - CoM to front axel: $0.13 \ m$
 - CoM to rear axel: $0.13 \ m$
 - Vehicle length: $0.37 \ m$
